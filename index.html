@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Credit Card Fraud Detection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #ff7e5f, #feb47b);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            width: 400px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #ff7e5f;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background: #e76f51;
+        }
+
+        #result {
+            margin-top: 15px;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Credit Card Fraud Detection</h2>
+        <p>System detects whether transaction is Fraud or Normal</p>
+        <button onclick="checkTransaction()">Check Transaction</button>
+        <p id="result"></p>
+    </div>
+
+    <script>
+        function checkTransaction() {
+            // Example input data (replace with real features)
+            const transactionData = {
+                features: [200, 1, 0, 3]
+            };
+
+            fetch("http://127.0.0.1:5000/predict", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(transactionData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("result").innerText =
+                    "Prediction: " + data.prediction;
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                document.getElementById("result").innerText =
+                    "Error connecting to backend.";
+            });
+        }
+    </script>
+</body>
+</html>
